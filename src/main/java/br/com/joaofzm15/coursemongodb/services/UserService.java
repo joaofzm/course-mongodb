@@ -29,6 +29,13 @@ public class UserService {
 	public User insert(User obj) {
 		return repository.insert(obj);
 	}
+	
+	public void delete(String id) {
+		//By searching the id first, the system will throw 
+		//an exception in case it don't exist, just like it would if we were just searching an id normally.
+		findById(id);
+		repository.deleteById(id);
+	}
 
 	public User returnUserFromUserDTO(UserDTO userDto) {
 		return new User(userDto.getId(), userDto.getName(), userDto.getEmail());
