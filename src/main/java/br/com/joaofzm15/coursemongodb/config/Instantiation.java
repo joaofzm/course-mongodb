@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.joaofzm15.coursemongodb.domain.Post;
 import br.com.joaofzm15.coursemongodb.domain.User;
+import br.com.joaofzm15.coursemongodb.dtos.AuthorDTO;
 import br.com.joaofzm15.coursemongodb.repositories.PostRepository;
 import br.com.joaofzm15.coursemongodb.repositories.UserRepository;
 
@@ -33,12 +34,13 @@ public class Instantiation implements CommandLineRunner {
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
+		//Must save users before creating the posts, so they persist in memory and can be referenced
 		userRepository.saveAll(Arrays.asList(maria,alex,bob));
 		
-		Post post1 = new Post(null, sdf.parse("21/03/2002"), "Partiu Academia","Ta saíndo da jaula o monstro!", alex);
-		Post post2 = new Post(null, sdf.parse("22/03/2002"), "Fora Waldemar","Time sem vergonha!", bob);
-		Post post3 = new Post(null, sdf.parse("22/03/2002"), "Diretoria Jim Carrey","Osvaldo vai comandar pelo telefone!", bob);
-		Post post4 = new Post(null, sdf.parse("23/03/2002"), "Meowh","Mingau ficou feliz com a ração :)", maria);
+		Post post1 = new Post(null, sdf.parse("21/03/2004"), "Partiu Academia","Ta saíndo da jaula o monstro!", new AuthorDTO(alex));
+		Post post2 = new Post(null, sdf.parse("22/03/2005"), "Fora Waldemar","Time sem vergonha!", new AuthorDTO(bob));
+		Post post3 = new Post(null, sdf.parse("22/03/2006"), "Diretoria Jim Carrey","Osvaldo vai comandar pelo telefone!", new AuthorDTO(bob));
+		Post post4 = new Post(null, sdf.parse("23/03/2008"), "Meowh","Mingau ficou feliz com a ração :)", new AuthorDTO(maria));
 		postRepository.saveAll(Arrays.asList(post1,post2,post3,post4));
 
 	}
