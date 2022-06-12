@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import br.com.joaofzm15.coursemongodb.domain.Comment;
 import br.com.joaofzm15.coursemongodb.domain.Post;
 import br.com.joaofzm15.coursemongodb.domain.User;
 import br.com.joaofzm15.coursemongodb.dtos.AuthorDTO;
+import br.com.joaofzm15.coursemongodb.dtos.CommentDTO;
+import br.com.joaofzm15.coursemongodb.repositories.CommentRepository;
 import br.com.joaofzm15.coursemongodb.repositories.PostRepository;
 import br.com.joaofzm15.coursemongodb.repositories.UserRepository;
 
@@ -23,6 +26,9 @@ public class Instantiation implements CommandLineRunner {
 	@Autowired
 	PostRepository postRepository;
 	
+	@Autowired
+	CommentRepository commentRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -30,6 +36,7 @@ public class Instantiation implements CommandLineRunner {
 		
 		userRepository.deleteAll();
 		postRepository.deleteAll();
+		commentRepository.deleteAll();
 		
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
@@ -41,6 +48,16 @@ public class Instantiation implements CommandLineRunner {
 		Post post2 = new Post(null, sdf.parse("22/03/2005"), "Fora Waldemar","Time sem vergonha!", new AuthorDTO(bob));
 		Post post3 = new Post(null, sdf.parse("22/03/2006"), "Diretoria Jim Carrey","Osvaldo vai comandar pelo telefone!", new AuthorDTO(bob));
 		Post post4 = new Post(null, sdf.parse("23/03/2008"), "Meowh","Mingau ficou feliz com a ração :)", new AuthorDTO(maria));
+	
+		Comment comment1 = new Comment("Partiu!", sdf.parse("21/03/2008") , new AuthorDTO(bob));
+		Comment comment2 = new Comment("Isso ai mano!", sdf.parse("22/03/2008") , new AuthorDTO(alex));
+		Comment comment3 = new Comment("Que fofinho!", sdf.parse("23/03/2008") , new AuthorDTO(alex));
+		commentRepository.saveAll(Arrays.asList(comment1, comment2, comment3));
+		
+		post1.getComments().add(new CommentDTO(comment1));
+		post2.getComments().add(new CommentDTO(comment2));
+		post4.getComments().add(new CommentDTO(comment3));
+		
 		postRepository.saveAll(Arrays.asList(post1,post2,post3,post4));
 		
 		alex.getPosts().addAll(Arrays.asList(post1));
