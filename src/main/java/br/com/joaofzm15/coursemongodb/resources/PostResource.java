@@ -1,5 +1,6 @@
 package br.com.joaofzm15.coursemongodb.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,20 @@ public class PostResource {
 	
 	@RequestMapping(value="/titlesearch", method=RequestMethod.GET)
  	public ResponseEntity<List<Post>> findByTitleContainingIgnoreCase(@RequestParam(value="text", defaultValue="") String text) {
-		text = URLDecoder.decodeParam(text);
 		List<Post> list = service.findByTitleContainingIgnoreCase(text);
 		return ResponseEntity.ok().body(list);
 	}
+	
+	@RequestMapping(value="/fullsearch", method=RequestMethod.GET)
+ 	public ResponseEntity<List<Post>> findByAnywhereContainingIgnoreCaseBetweenTwoDates(
+ 			@RequestParam(value="text", defaultValue="") String text,
+ 			@RequestParam(value="minDate", defaultValue="") String minDate,
+ 			@RequestParam(value="maxDate", defaultValue="") String maxDate) {
+		List<Post> list = service.findByAnywhereContainingIgnoreCaseBetweenTwoDates(text, minDate, maxDate);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	
+	
 
 }
