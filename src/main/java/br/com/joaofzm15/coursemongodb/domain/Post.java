@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.joaofzm15.coursemongodb.dtos.AuthorDTO;

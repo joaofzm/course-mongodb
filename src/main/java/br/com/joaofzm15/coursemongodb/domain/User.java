@@ -20,6 +20,8 @@ public class User implements Serializable {
 	
 	//Lazy loading means posts won't load when you load an user.
 	//They'll only load if you actively search for them, improving the performance.
+	
+	//Saves just reference, not the full object
 	@DBRef(lazy = true)
 	private List<Post> posts = new ArrayList<>();
 	
